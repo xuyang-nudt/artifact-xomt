@@ -4,15 +4,13 @@ from scipy.stats import mannwhitneyu
 
 # ========== 配置 ==========
 config = {
-    "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db",
-    # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program-400/output.db",
+    "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db", #on/off
+    # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program/output.db", #on/off
 
-    # "method_A": "xomt-hybrid-mathsat5",
-    # "method_B": "optimathsat",
-    "method_A": "xomt-hybrid-mathsat5",
-    "method_B": "xomt-only_bs-mathsat5",
-    # "method_A": "xomt-only_bs-mathsat5",
-    # "method_B": "optimathsat",
+    "method_A": "xomt-hybrid-mathsat5", #on/off
+    "method_B": "optimathsat", #on/off
+    # "method_A": "xomt-only_bs-mathsat5", #on/off
+    # "method_B": "optimathsat", #on/off
     "success_status": ["SolverStatus.SAT"],
     "table_name": "solving",
 }

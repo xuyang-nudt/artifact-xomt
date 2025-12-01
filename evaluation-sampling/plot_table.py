@@ -4,25 +4,20 @@ import os
 
 # ========== 配置 ==========
 config = {
-    # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db",
-    "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program-400/output.db",
+    # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db", # on/off
+    "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program/output.db", # on/off
 
-    # "methods": ["xomt-hybrid-mathsat5", "optimathsat"],
-    # "methods": ["xomt-only_bs-mathsat5", "optimathsat"],
-    "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"],
-    # "methods": ["optimathsat", "xomt-hybrid-bitwuzla"],
-    # "methods": ["optimathsat", "xomt-hybrid-bitwuzla"],
-    # "methods": ["xomt-hybrid-mathsat5", "xomt-hybrid-bitwuzla"],
-    # "methods": ["xomt-hybrid-bitwuzla", "xomt-only_bs-bitwuzla"],
-    # "methods": ["xomt-only_bs-mathsat5", "xomt-only_bs-bitwuzla"],
+    # "methods": ["xomt-hybrid-mathsat5", "optimathsat"], # on/off
+    "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"], # on/off
 
-    # "target_method": "optimathsat",      # 主要方法
-    "target_method": "xomt-bybrid-mathsat5",
+    # "target_method": "optimathsat",      # on/off
+    "target_method": "xomt-only_bs-mathsat5", # on/off
     "other_method": "xomt-bybrid-mathsat5",
     "table_name": "solving",             # 表名
     "success_status": ["SolverStatus.SAT"],  # 成功状态定义
     "output_dir": "table-results",
     "prefix": "qf-fp"
+    # "prefix": "program" # on/off
 }
 # ===========================
 
