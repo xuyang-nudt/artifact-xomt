@@ -1,0 +1,2 @@
+target_method,other_method,target_success_total,other_success_total,only_target_success,only_other_success,both_success,both_fail,total_cases
+xomt-hybrid-mathsat5,xomt-only_bs-mathsat5,343,309,34,0,309,57,400

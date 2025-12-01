@@ -1,4 +1,26 @@
+.idea
+*.log
 
+benchmarks/QF_*
 
-*.tar.gz
+floatingpoint_test/
+optimathsat/
+X-OMT/
 
+evaluation-sampling/configs/smtsampler-*/
+evaluation-sampling/configs/qsampler-*/
+evaluation-sampling/configs/xomt-hybrid-bitwuzla/
+evaluation-sampling/configs/xomt-bs-bitwuzla/
+evaluation-sampling/configs/xomt-opt-*/
+
+evaluation-sampling/experiments/full-*/
+
+evaluation-sampling/containers_del/
+evaluation-sampling/simple_results_del/
+
+evaluation-sampling/results-*/
+evaluation-sampling/select_*
+evaluation-sampling/images/
+
+get_benchmark.py
+get_float.py
