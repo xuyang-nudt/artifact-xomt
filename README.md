@@ -26,15 +26,13 @@ Load the Docker images for the following steps:
 1. Change directory: `cd evaluation-sampling/`
 2. The baselines and QSampler used in this experiment have been containerized as Docker images. You can pull them from dockerhub by running the following commands:
 ```
-docker pull dockerqsf/jfs-smt-sampler:ubuntu1804
-docker pull dockerqsf/jfs_sampling_build:ubuntu1804
-docker pull dockerqsf/qsampler-build:ubuntu1804
+docker pull dockerqsf/optimathsat-build:ubuntu1804
+docker pull dockerqsf/xomt-build:ubuntu1804
 ```
 3. The pulled images need to be renamed. Execute the following commands:
 ```
-docker tag dockerqsf/jfs-smt-sampler:ubuntu1804 jfs-smtsampler:ubuntu1804
-docker tag dockerqsf/jfs_sampling_build:ubuntu1804 jfs_sampling_build:ubuntu1804
-docker tag dockerqsf/qsampler-build:ubuntu1804 qsampler-build:ubuntu1804
+docker tag dockerqsf/optimathsat-build:ubuntu1804 optimathsat-build:ubuntu1804
+docker tag dockerqsf/xomt-build:ubuntu1804 xomt-build:ubuntu1804
 ```
 
 ## Short Evaluation
@@ -53,8 +51,7 @@ This is a scaled evaluation to ensure functional correctness. It will run the to
 This is a comprehensive evaluation that will obtain all the data presented in the paper.
 
 1. Change directory: `cd evaluation-sampling/experiments/`
-2. The tool is executed to obtain the SMT coverage trend graph as the number of samples increases.: `./full-fp/run.sh` and `./full-program/run.sh`
-3. After the execution is completed, we obtain two `output.db` files in the paths `../results-full-fp` and `../results-full-program`, respectively. Then, by running `plot_trend.py`, we can generate Figures 6 and 7 as presented in the paper. It is worth noting that the `config` in `plot_trend.py` needs to be manually modified.
-4. The tool is executed to obtain the box plot of SMT coverage distribution.: `./full-fp-2000/run.sh` and `./full-program-2000/run.sh`
-5. After the execution is completed, we obtain two `output.db` files in the paths `../results-full-fp` and `../results-full-program`, respectively. Then, by running `plot_box.py`, we can generate Figures 8 and 9 as presented in the paper. It is worth noting that the `config` in `plot_box.py` needs to be manually modified.
-6. Delete the result folders: `rm -r ./results-full-fp/` and `rm -r ./results-full-program`. Otherwise, if the short evaluation is executed again it will fail.
+2. Execute this tool to obtain comparison data between Xomt and various methods: `./full-fp/run.sh` and `./full-program/run.sh`.
+3. After the execution is completed, we obtain two `output.db` files in the paths `../results-full-fp` and `../results-full-program`, respectively. Then, by running `plot_table.py`, we can generate Table 2 as presented in the paper. It is worth noting that the `config` in `plot_table.py` needs to be manually modified.
+4. After the execution is completed, we obtain two `output.db` files in the paths `../results-full-fp` and `../results-full-program`, respectively. Then, by running `table_a12.py`, we can generate Table 3 as presented in the paper. It is worth noting that the `config` in `table_a12.py` needs to be manually modified.
+5. Delete the result folders: `rm -r ./results-full-fp/` and `rm -r ./results-full-program`. Otherwise, if the short evaluation is executed again it will fail.

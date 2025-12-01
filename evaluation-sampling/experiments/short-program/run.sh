@@ -4,7 +4,7 @@ set -x
 RUN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 JFS_EVALUATION_DIRECTORY="$RUN_DIR/../../"
 
-EXPERIMENT_TAG="full-fp"
+EXPERIMENT_TAG="full-program"
 
 #$RUN_DIR/../jfs-container.sh /tmp/evaluation-sampling/experiments/$EXPERIMENT_TAG/test-jfs.sh
 $RUN_DIR/../optimathsat-container.sh /tmp/evaluation-sampling/experiments/$EXPERIMENT_TAG/test-optimathsat.sh

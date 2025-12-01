@@ -13,7 +13,8 @@ evaluation-sampling/configs/xomt-hybrid-bitwuzla/
 evaluation-sampling/configs/xomt-bs-bitwuzla/
 evaluation-sampling/configs/xomt-opt-*/
 
-evaluation-sampling/experiments/full-*/
+evaluation-sampling/experiments/full-o300/
+evaluation-sampling/experiments/full-oprogram/
 
 evaluation-sampling/containers_del/
 evaluation-sampling/simple_results_del/

@@ -7,15 +7,16 @@ source "$EXPERIMENT_SCRIPT_DIR/conf.sh"
 
 # WARNING: Given a FEATURE_TAG, the BATCH_TAGs must be incremental. Otherwise, there will be collisions.
 
-LOGIC="FP"
-#BENCHMARKS=266
-BENCHMARKS=4
-PARALLEL_JOBS=$(nproc)
+LOGIC="program"
+BENCHMARKS=1
+#BENCHMARKS=400
+#PARALLEL_JOBS=$(nproc)
+PARALLEL_JOBS=60
 MAX_JOB_ID=$((EVAL_REPETITIONS * BENCHMARKS))
-    TOOL="smtsampler"
-        FEATURE_TAG=smtsampler-to
-            BATCH_TAG="100"
-            EVAL_MAX_SAMPLES="100"
-            JOB_VALUES=(100)
+    TOOL="optimathsat"
+        FEATURE_TAG=optimathsat
+            BATCH_TAG="600"
+            EVAL_MAX_SAMPLES="600"
+            JOB_VALUES=(600)
             JOB_DIR="$(mktemp -d)"
                 local_parallel_jobs $MAX_JOB_ID $JOB_DIR $PARALLEL_JOBS && rm -r $JOB_DIR
