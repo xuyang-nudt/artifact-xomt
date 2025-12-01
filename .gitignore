@@ -1,7 +1,7 @@
 .idea
 *.log
 
-benchmarks/QF_*
+benchmarks/QF_*/
 
 floatingpoint_test/
 optimathsat/
