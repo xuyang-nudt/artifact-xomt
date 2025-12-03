@@ -4,7 +4,7 @@
 benchmarks/QF_*/
 
 floatingpoint_test/
-optimathsat/
+OptiMathSAT/
 X-OMT/
 
 evaluation-sampling/configs/smtsampler-*/
@@ -14,11 +14,12 @@ evaluation-sampling/configs/xomt-bs-bitwuzla/
 evaluation-sampling/configs/xomt-opt-*/
 
 evaluation-sampling/experiments/full-o300/
-evaluation-sampling/experiments/full-oprogram/
+evaluation-sampling/experiments/full-program-*/
 
 evaluation-sampling/containers_del/
 evaluation-sampling/simple_results_del/
 
+evaluation-sampling/results/
 evaluation-sampling/results-*/
 evaluation-sampling/select_*
 evaluation-sampling/images/
