@@ -1,9 +1,9 @@
 target_method            : xomt-hybrid-mathsat5
-other_method             : xomt-only_bs-mathsat5
-target_success_total     : 343
-other_success_total      : 309
-only_target_success      : 34
-only_other_success       : 0
-both_success             : 309
-both_fail                : 57
-total_cases              : 400
+other_method             : xomt-hybrid-bitwuzla
+target_success_total     : 583
+other_success_total      : 571
+only_target_success      : 67
+only_other_success       : 55
+both_success             : 516
+both_fail                : 29
+total_cases              : 667

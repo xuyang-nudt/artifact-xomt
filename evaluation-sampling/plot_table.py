@@ -7,12 +7,20 @@ config = {
     # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db", # on/off
     "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program/output.db", # on/off
 
-    # "methods": ["xomt-hybrid-mathsat5", "optimathsat"], # on/off
-    "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"], # on/off
+    "methods": ["xomt-hybrid-mathsat5", "optimathsat"], # on/off
+    # "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"], # on/off
+    # "methods": ["xomt-hybrid-mathsat5", "xomt-hybrid-bitwuzla"], # on/off
+    # "methods": ["xomt-only_bs-mathsat5", "xomt-only_bs-bitwuzla"], # on/off
 
-    # "target_method": "optimathsat",      # on/off
-    "target_method": "xomt-only_bs-mathsat5", # on/off
-    "other_method": "xomt-bybrid-mathsat5",
+    "target_method": "xomt-bybrid-mathsat5",
+    "other_method": "optimathsat",
+    # "target_method": "xomt-bybrid-mathsat5",
+    # "other_method": "xomt-only_bs-mathsat5",
+    # "target_method": "xomt-bybrid-mathsat5",
+    # "other_method": "xomt-hybrid-bitwuzla",
+    # "target_method": "xomt-only_bs-mathsat5",
+    # "other_method": "xomt-only_bs-bitwuzla",
+
     "table_name": "solving",             # 表名
     "success_status": ["SolverStatus.SAT"],  # 成功状态定义
     "output_dir": "table-results",

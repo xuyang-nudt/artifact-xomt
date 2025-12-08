@@ -9,8 +9,8 @@ X-OMT/
 
 evaluation-sampling/configs/smtsampler-*/
 evaluation-sampling/configs/qsampler-*/
-evaluation-sampling/configs/xomt-hybrid-bitwuzla/
-evaluation-sampling/configs/xomt-bs-bitwuzla/
+#evaluation-sampling/configs/xomt-hybrid-bitwuzla/
+#evaluation-sampling/configs/xomt-bs-bitwuzla/
 evaluation-sampling/configs/xomt-opt-*/
 
 evaluation-sampling/experiments/full-o300/

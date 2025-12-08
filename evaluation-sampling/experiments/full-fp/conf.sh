@@ -8,15 +8,6 @@ set +e
 
 PARALLEL_JOBS=$(nproc)
 
-#EVAL_MAX_TIME="300" # This is the sampling time
-#EVAL_INTERNAL_KILL_TIME=$((EVAL_MAX_TIME * 5)) # This is the timeout used by the Python script that generates the output database.
-#EVAL_MAX_JOB_TIME=$((EVAL_INTERNAL_KILL_TIME + 60))  # This is the timeout used to guard the Python script
-#TAG="test-experiment"
-#EVAL_MAX_SAMPLES="75000000" # This is a safeguard; it is not actually reached.
-#EVAL_RANDOM_COVERAGE_LIMIT_PCT="10"
-#EVAL_REPETITIONS=10
-#SKIPPED_FILES="/tmp/jfs-evaluation/skip-files/skip-21-08-24.txt"
-
 EVAL_MAX_TIME="600" # This is the sampling time
 EVAL_INTERNAL_KILL_TIME=$((EVAL_MAX_TIME * 5)) # This is the timeout used by the Python script that generates the output database.
 EVAL_MAX_JOB_TIME=$((EVAL_INTERNAL_KILL_TIME + 60))  # This is the timeout used to guard the Python script

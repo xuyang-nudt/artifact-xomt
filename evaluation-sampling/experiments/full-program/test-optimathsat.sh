@@ -7,7 +7,7 @@ source "$EXPERIMENT_SCRIPT_DIR/conf.sh"
 
 # WARNING: Given a FEATURE_TAG, the BATCH_TAGs must be incremental. Otherwise, there will be collisions.
 
-LOGIC="program_400"
+LOGIC="program"
 #BENCHMARKS=1
 BENCHMARKS=400
 #PARALLEL_JOBS=$(nproc)

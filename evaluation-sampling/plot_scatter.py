@@ -9,12 +9,19 @@ config = {
     # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db", #on/off
     "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program/output.db", #on/off
 
-    # "methods": ["xomt-hybrid-mathsat5", "optimathsat"], #on/off
-    "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"], #on/off
+    "methods": ["xomt-hybrid-mathsat5", "optimathsat"], #on/off
+    # "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"], #on/off
+    # "methods": ["xomt-hybrid-mathsat5", "xomt-hybrid-bitwuzla"], #on/off
+    # "methods": ["xomt-only_bs-mathsat5", "xomt-only_bs-bitwuzla"], #on/off
+
     "rename_map": {
         "optimathsat": "OptiMathSAT",
         "xomt-hybrid-mathsat5": "Xomt",
-        "xomt-only_bs-mathsat5": "Xomt-BS"
+        "xomt-only_bs-mathsat5": "Xomt-BS",
+        # "xomt-hybrid-mathsat5": "Xomt-MathSAT", #on/off
+        # "xomt-only_bs-mathsat5": "Xomt-BS-MathSAT", #on/off
+        # "xomt-hybrid-bitwuzla": "Xomt-Bitwuzla", #on/off
+        # "xomt-only_bs-bitwuzla": "Xomt-BS-Bitwuzla" #on/off
     },
     "output_dir": "scatter-results",
     "prefix": "qf-fp", #on/off
