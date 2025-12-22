@@ -1,2 +1,0 @@
-/tmp/benchmarks/QF_program_400/gsl_cdf_beta_Q_bfs_FP_67.var_0.min.smt2
-/tmp/benchmarks/QF_program_400/gsl_cdf_beta_Qinv_bfs_FP_28.var_1.min.smt2

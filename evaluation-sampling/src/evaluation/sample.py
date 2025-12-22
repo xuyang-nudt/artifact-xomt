@@ -41,7 +41,7 @@ def process_optimathsat(file_path, rep, max_time, rng_seed, coverage, db_path, d
             database.save_solving(db_path, tag, rep, file_path, "optimathsat", solving_status, "None", obj_v, solving_time, database_lock)
     else:
         if not db_path is None:
-            database.save_solving(db_path, tag, rep, file_path, "optimathsat", "error", "None", "None", "None", database_lock)
+            database.save_solving(db_path, tag, rep, file_path, "optimathsat", "error", None, None, None, database_lock)
 
 
 def process_xomt(file_path, rep, max_time, rng_seed, coverage, db_path, database_lock, tag, max_samples,
@@ -75,11 +75,11 @@ def process_xomt(file_path, rep, max_time, rng_seed, coverage, db_path, database
         #     obj_v = sampler_command.get_objective()
 
         if not db_path is None:
-            database.save_solving(db_path, tag, rep, file_path, "xomt-"+search_type+"-"+smt_solver, solving_status, "None", obj_v, solving_time, database_lock)
+            database.save_solving(db_path, tag, rep, file_path, "xomt-"+search_type+"-"+smt_solver, solving_status, None, obj_v, solving_time, database_lock)
 
     else:
         if not db_path is None:
-            database.save_solving(db_path, tag, rep, file_path, "xomt-"+search_type+"-"+smt_solver, "error", "None", "None", "None", database_lock)
+            database.save_solving(db_path, tag, rep, file_path, "xomt-"+search_type+"-"+smt_solver, "error", None, None, None, database_lock)
 
     try:
         xomt_command.cleanup()

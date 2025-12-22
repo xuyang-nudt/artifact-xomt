@@ -1,0 +1,9 @@
+target_method            : xomt-only_bs-mathsat5
+other_method             : optimathsat
+target_success_total     : 0
+other_success_total      : 1134
+only_target_success      : 0
+only_other_success       : 1134
+both_success             : 0
+both_fail                : 206
+total_cases              : 1340
