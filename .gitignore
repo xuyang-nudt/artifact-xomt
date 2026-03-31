@@ -27,6 +27,8 @@ evaluation-sampling/images/
 evaluation-sampling/plot_scatter-1.py
 evaluation-sampling/plot_table-1.py
 evaluation-sampling/table_a12-1.py
+evaluation-sampling/scatter-results-*/
+evaluation-sampling/table-results/
 
 get_benchmark.py
 get_float.py

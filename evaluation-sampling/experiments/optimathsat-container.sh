@@ -33,4 +33,4 @@ trap "cleanup '$JFSTMP'" EXIT
 #Mount evaluation-sampling.
 #Mount benchmarks.
 #docker run --user root --rm -it -v $JFSTMP:/tmp/fast -v $CURRENT_DIR/../../JFSampler:$SRC_PATH -v $CURRENT_DIR/../:/tmp/evaluation-sampling -v $CURRENT_DIR/../../benchmarks:/tmp/benchmarks $IMAGE $@
-docker run --user root --rm -it -v $JFSTMP:/tmp/fast -v $CURRENT_DIR/../:/tmp/evaluation-sampling -v $CURRENT_DIR/../../benchmarks:/tmp/benchmarks $IMAGE $@
+docker run --log-opt max-size=10m --log-opt max-file=1 --user root --rm -it -v $JFSTMP:/tmp/fast -v $CURRENT_DIR/../:/tmp/evaluation-sampling -v $CURRENT_DIR/../../benchmarks:/tmp/benchmarks $IMAGE $@

@@ -7,10 +7,9 @@ source "$EXPERIMENT_SCRIPT_DIR/conf.sh"
 
 # WARNING: Given a FEATURE_TAG, the BATCH_TAGs must be incremental. Otherwise, there will be collisions.
 
-LOGIC="program"
+LOGIC="program_3493"
 BENCHMARKS=1
 #BENCHMARKS=400
-#BENCHMARKS=1
 #PARALLEL_JOBS=$(nproc)
 PARALLEL_JOBS=60
 MAX_JOB_ID=$((EVAL_REPETITIONS * BENCHMARKS))
@@ -34,18 +33,18 @@ MAX_JOB_ID=$((EVAL_REPETITIONS * BENCHMARKS))
 #            JOB_DIR="$(mktemp -d)"
 #                local_parallel_jobs $MAX_JOB_ID $JOB_DIR $PARALLEL_JOBS && rm -r $JOB_DIR
 
-#        FEATURE_TAG=xomt-hybrid-bitwuzla
-#            BATCH_TAG="600"
-#            EVAL_MAX_SAMPLES="600"
-#            JOB_VALUES=(600)
-#            JOB_DIR="$(mktemp -d)"
-#                local_parallel_jobs $MAX_JOB_ID $JOB_DIR $PARALLEL_JOBS && rm -r $JOB_DIR
-#        FEATURE_TAG=xomt-bs-bitwuzla
-#            BATCH_TAG="600"
-#            EVAL_MAX_SAMPLES="600"
-#            JOB_VALUES=(600)
-#            JOB_DIR="$(mktemp -d)"
-#                local_parallel_jobs $MAX_JOB_ID $JOB_DIR $PARALLEL_JOBS && rm -r $JOB_DIR
+        FEATURE_TAG=xomt-hybrid-bitwuzla
+            BATCH_TAG="600"
+            EVAL_MAX_SAMPLES="600"
+            JOB_VALUES=(600)
+            JOB_DIR="$(mktemp -d)"
+                local_parallel_jobs $MAX_JOB_ID $JOB_DIR $PARALLEL_JOBS && rm -r $JOB_DIR
+        FEATURE_TAG=xomt-bs-bitwuzla
+            BATCH_TAG="600"
+            EVAL_MAX_SAMPLES="600"
+            JOB_VALUES=(600)
+            JOB_DIR="$(mktemp -d)"
+                local_parallel_jobs $MAX_JOB_ID $JOB_DIR $PARALLEL_JOBS && rm -r $JOB_DIR
 ##        FEATURE_TAG=xomt-opt-biwuzla
 ##            BATCH_TAG="600"
 ##            EVAL_MAX_SAMPLES="600"

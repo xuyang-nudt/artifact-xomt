@@ -4,37 +4,57 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 from matplotlib.ticker import ScalarFormatter
+from scipy import stats
+import itertools
+import os
+
+plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.size": 16,
+    "axes.labelsize": 16,
+    "legend.fontsize": 14,
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42
+})
 
 config = {
-    # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db", #on/off
-    "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-program/output.db", #on/off
+    # "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-fp/output.db",
+    "db_path": "/home/aaa/artifact-omt/evaluation-sampling/results-full-program-3493/output.db",
 
-    "methods": ["xomt-hybrid-mathsat5", "optimathsat"], #on/off
-    # "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"], #on/off
-    # "methods": ["xomt-hybrid-mathsat5", "xomt-hybrid-bitwuzla"], #on/off
-    # "methods": ["xomt-only_bs-mathsat5", "xomt-only_bs-bitwuzla"], #on/off
+    "methods": ["xomt-hybrid-mathsat5", "optimathsat"],
+    # "methods": ["xomt-only_bs-mathsat5", "optimathsat"],
+    # "methods": ["xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"],
+    # "methods": ["xomt-hybrid-mathsat5", "xomt-hybrid-bitwuzla"],
+    # "methods": ["xomt-only_bs-mathsat5", "xomt-only_bs-bitwuzla"],
+
+    "pairs": [
+        ("xomt-hybrid-mathsat5", "optimathsat"),
+        ("xomt-only_bs-mathsat5", "optimathsat"),
+        ("xomt-hybrid-mathsat5", "xomt-only_bs-mathsat5"),
+        ("xomt-hybrid-mathsat5", "xomt-hybrid-bitwuzla"),
+        ("xomt-only_bs-mathsat5", "xomt-only_bs-bitwuzla")
+    ],
 
     "rename_map": {
         "optimathsat": "OptiMathSAT",
-        "xomt-hybrid-mathsat5": "Xomt",
-        "xomt-only_bs-mathsat5": "Xomt-BS",
-        # "xomt-hybrid-mathsat5": "Xomt-MathSAT", #on/off
-        # "xomt-only_bs-mathsat5": "Xomt-BS-MathSAT", #on/off
-        # "xomt-hybrid-bitwuzla": "Xomt-Bitwuzla", #on/off
-        # "xomt-only_bs-bitwuzla": "Xomt-BS-Bitwuzla" #on/off
+        "xomt-hybrid-mathsat5": "FOMT-H-MathSAT5",
+        "xomt-only_bs-mathsat5": "FOMT-BS-MathSAT5",
+        "xomt-hybrid-bitwuzla": "FOMT-H-Bitwuzla",
+        "xomt-only_bs-bitwuzla": "FOMT-BS-Bitwuzla"
     },
+
     "output_dir": "scatter-results",
-    "prefix": "qf-fp", #on/off
-    # "prefix": "program",   #on/off
+    # "prefix": "qf-fp",
+    "prefix": "program",
     "figsize": (7, 7)  # 1:1 比例
 }
 
 def load_data(db_path):
     query = f"""
-            SELECT id, sort, file,
-                   COALESCE(solving_time, 0) AS solving_time
+            SELECT id, sort, file, COALESCE(NULLIF(solving_time, 'None'), 600000) AS solving_time
             FROM solving
-            WHERE status like 'SolverStatus.SAT'
+            WHERE status like 'SolverStatus.%'
+--             WHERE status like 'SolverStatus.SAT' and solving_time >= 1000
         """
 
     with sqlite3.connect(db_path) as conn:
@@ -64,77 +84,118 @@ def prepare_comparison(df, method1, method2):
     return merged
 
 
-def create_scatter(ax, df, label1, label2):
+def create_scatter(ax, df, label1, label2, confidence=0.99):
+    df = df[(df["solving_time_mean_1"] >= 500) | (df["solving_time_mean_2"] >= 500)]
+
     x = df["solving_time_mean_1"] / 1000.0
-    y = df["solving_time_mean_2"] /1000.0
-    xerr = df["solving_time_std_1"] / np.sqrt(df["solving_time_count_1"]) / 1000.0
-    yerr = df["solving_time_std_2"] / np.sqrt(df["solving_time_count_2"]) /1000.0
+    y = df["solving_time_mean_2"] / 1000.0
 
-    ax.set_xscale("log")
-    ax.set_yscale("log")
+    n1 = df["solving_time_count_1"]
+    n2 = df["solving_time_count_2"]
 
-    upper_left = y - x > 0.5
-    lower_right = x - y > 0.5
-    diagonal = abs(x - y) == 0.5
+    std1 = df["solving_time_std_1"]
+    std2 = df["solving_time_std_2"]
 
-    for mask, color in [(upper_left, "#4daf4a"), (lower_right, "#377eb8"), (diagonal, "#999999")]:
-        ax.errorbar(
-            x[mask], y[mask],
-            xerr=xerr[mask], yerr=yerr[mask],
-            fmt='o', color=color, alpha=0.7, markersize=5,
-            ecolor='lightgray', elinewidth=1, capsize=2
-        )
-        # ax.scatter(
-        #     x[mask], y[mask],
-        #     color=color, alpha=0.7, s=50,  # s=markersize^2
-        #     edgecolors='lightgray', linewidths=0.5
-        # )
+    # ===============================
+    # 计算置信区间半宽
+    # ===============================
+    se1 = std1 / np.sqrt(n1)
+    se2 = std2 / np.sqrt(n2)
 
-    stats = [
-        (0.3, 0.7, f"{sum(upper_left)}", "#4daf4a"),
-        (0.7, 0.3, f"{sum(lower_right)}", "#377eb8")
-        # (0.5, 0.5, f"{sum(diagonal)}", "#999999")
-    ]
+    t1 = stats.t.ppf((1 + confidence) / 2, df=n1 - 1)
+    t2 = stats.t.ppf((1 + confidence) / 2, df=n2 - 1)
 
-    for x_pos, y_pos, text, color in stats:
-        # ax.add_patch(plt.Rectangle(
-        #     (x_pos - 0.1, y_pos - 0.04), 0.2, 0.1,
-        #     transform=ax.transAxes, color=color, alpha=0.6,
-        #     zorder=2, linewidth=0
-        # ))
-        txt = ax.text(x_pos, y_pos, text, transform=ax.transAxes,
-                      ha='center', va='center', fontsize=50, color='black')
-        # txt.set_path_effects([
-        #     path_effects.Stroke(linewidth=2.5, foreground=color),
-        #     path_effects.Normal()
-        # ])
+    ci_x = (se1 * t1) / 1000.0
+    ci_y = (se2 * t2) / 1000.0
 
-    ax.plot([x.min(), x.max()], [x.min(), x.max()], 'r--', alpha=0.6)
+    # ===============================
+    # log scale
+    # ===============================
+    from matplotlib.ticker import LogLocator
 
-    ax.set_xlabel(f"{label1} solving time", fontsize=25)
-    ax.set_ylabel(f"{label2} solving time", fontsize=25)
-    ax.tick_params(axis='both', which='major', direction='out', length=6, width=1)
-    # ax.set_title(f"{label1} vs {label2} on {config['prefix'].upper()}", fontsize=18, pad=12)
+    ax.set_xscale("symlog")
+    ax.set_yscale("symlog")
+
+    # X 轴副刻度
+    ax.xaxis.set_minor_locator(LogLocator(base=10.0,
+                                          subs=np.arange(1.0, 10.0) * 0.1,
+                                          numticks=10))
+    # Y 轴副刻度
+    ax.yaxis.set_minor_locator(LogLocator(base=10.0,
+                                          subs=np.arange(1.0, 10.0) * 0.1,
+                                          numticks=10))
+
+    # ===============================
+    # CI 不重叠判断
+    # ===============================
+    better_y = y + ci_y < x - ci_x
+    better_x = x + ci_x < y - ci_y
+    # equal = ~(better_x | better_y)
+
+    # ===============================
+    # 绘制 scatter（无误差棒）
+    # ===============================
+    ax.scatter(x[better_y], y[better_y], color="#4daf4a", s=60, alpha=0.8, marker='s')  # 4daf4a
+    ax.scatter(x[better_x], y[better_x], color="#377eb8", s=60, alpha=0.8, marker='^')  # 377eb8
+    # ax.scatter(xs[equal], ys[equal], color="#999999", s=60, alpha=0.8)
+
+    # ===============================
+    # 胜负统计
+    # ===============================
+    ax.text(0.7, 0.3, str(np.sum(better_y)), transform=ax.transAxes, fontsize=40)
+    ax.text(0.3, 0.7, str(np.sum(better_x)), transform=ax.transAxes, fontsize=40)
+
+    # ===============================
+    # 对角线
+    # ===============================
+    min_val = min(x.min(), y.min())
+    max_val = max(x.max(), y.max())
+
+    ax.plot([min_val, max_val], [min_val, max_val], color="red", linestyle="--", alpha=0.6)
+
+    # # ===============================
+    # # 坐标轴
+    # # ===============================
+    # from matplotlib.font_manager import FontProperties
+    # import matplotlib as mpl
+    # mpl.rcParams['pdf.fonttype'] = 3
+    # mpl.rcParams['ps.fonttype'] = 3
+    # # mpl.rcParams['pdf.use14corefonts'] = False
+    # font_path = "/home/aaa/SIMSUN.ttf"
+    # cn_font = FontProperties(fname=font_path)
+    # ax.set_xlabel(f"{label1} 的执行时间", fontproperties=cn_font)
+    # ax.set_ylabel(f"{label2} 的执行时间", fontproperties=cn_font)
+
+    ax.set_xlabel(f"{label1} solving time (s)")
+    ax.set_ylabel(f"{label2} solving time (s)")
+
     ax.grid(True, linestyle=":", alpha=0.6)
     ax.xaxis.set_major_formatter(ScalarFormatter())
     ax.yaxis.set_major_formatter(ScalarFormatter())
+    # ax.legend(loc="upper left", frameon=False)
 
 def generate_scatter(config):
     df = load_data(config["db_path"])
-    method1, method2 = config["methods"]
-    label1 = config["rename_map"].get(method1, method1)
-    label2 = config["rename_map"].get(method2, method2)
+    os.makedirs(config["output_dir"], exist_ok=True)
 
-    merged = prepare_comparison(df, method1, method2)
+    for method1, method2 in config["pairs"]:
+        label1 = config["rename_map"].get(method1, method1)
+        label2 = config["rename_map"].get(method2, method2)
 
+        merged = prepare_comparison(df, method1, method2)
+        if merged.empty:
+            print(f"No data for pair {label1} vs {label2}, skip")
+            continue
 
-    fig, ax = plt.subplots(figsize=config["figsize"])
-    create_scatter(ax, merged, label1, label2)
+        fig, ax = plt.subplots(figsize=config["figsize"])
+        create_scatter(ax, merged, label1, label2)
 
-    output_path = f"{config['output_dir']}/{config['prefix']}_{label1}_vs_{label2}_scatter.pdf"
-    fig.tight_layout()
-    fig.savefig(output_path, dpi=600, bbox_inches="tight")
-    print(f"Saved to {output_path}")
+        output_path = f"{config['output_dir']}/{config['prefix']}_{label1}_vs_{label2}_scatter"
+        fig.tight_layout()
+        fig.savefig(output_path + '.pdf', bbox_inches="tight")
+        fig.savefig(output_path + ".png", dpi=600, bbox_inches="tight")
+        plt.close(fig)
+        print(f"Saved to {output_path}")
 
 
 if __name__ == "__main__":

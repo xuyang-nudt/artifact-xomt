@@ -52,19 +52,19 @@ def compute_run_success_counts(df, method):
 
 # ----- 主流程 -----
 def main():
-    print("加载数据中...")
+    # print("加载数据中...")
     df = load_data()
 
     A = config["method_A"]
     B = config["method_B"]
 
-    print(f"对比方法: {A} vs {B}")
+    print(f"{A} vs {B}")
 
     A_counts = compute_run_success_counts(df, A)
     B_counts = compute_run_success_counts(df, B)
 
-    print(f"{A} 成功实例数: {A_counts}")
-    print(f"{B} 成功实例数: {B_counts}")
+    print(f"{A} success: {A_counts}")
+    print(f"{B} success: {B_counts}")
 
     # A12 效应量
     A12_value = compute_A12(A_counts, B_counts)
@@ -72,19 +72,19 @@ def main():
     # p-value (Mann–Whitney U test)
     stat, p_value = mannwhitneyu(A_counts, B_counts, alternative="two-sided")
 
-    print("\n===== 对比结果（Success Count Level）=====")
+    print("\n=====（Success Count Level）=====")
     print(f"A12 ({A} vs {B}):  {A12_value:.4f}")
     print(f"p-value:           {p_value:.6f}")
 
-    # 解释 A12
-    if A12_value > 0.56:
-        interpretation = f"{A} 显著优于 {B}"
-    elif A12_value < 0.44:
-        interpretation = f"{B} 显著优于 {A}"
-    else:
-        interpretation = "两者差别不大"
-
-    print(f"解释: {interpretation}")
+    # # 解释 A12
+    # if A12_value > 0.56:
+    #     interpretation = f"{A} 显著优于 {B}"
+    # elif A12_value < 0.44:
+    #     interpretation = f"{B} 显著优于 {A}"
+    # else:
+    #     interpretation = "两者差别不大"
+    #
+    # print(f"{interpretation}")
 
 
 if __name__ == "__main__":

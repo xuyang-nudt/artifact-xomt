@@ -366,3 +366,7 @@ zip -r results.zip $(basename $db_file) commands.txt parallel.log parameters.txt
 mv results.zip $output_file
 
 popd
+
+# 物理删除刚才产生的所有中间文件
+echo "Cleaning up working directory: $working_dir"
+echo "123" | sudo -S rm -rf "$working_dir"

@@ -14,5 +14,5 @@ EVAL_MAX_JOB_TIME=$((EVAL_INTERNAL_KILL_TIME + 60))  # This is the timeout used 
 TAG="test-experiment"
 #EVAL_MAX_SAMPLES="100000" # This is a safeguard; it is not actually reached.
 EVAL_RANDOM_COVERAGE_LIMIT_PCT="100"
-EVAL_REPETITIONS=1
+EVAL_REPETITIONS=10
 SKIPPED_FILES="/tmp/evaluation-sampling/skip-files/skip-25-04-08.txt"
